@@ -1,9 +1,11 @@
 // server.js
-
+(function () {
   // set up ========================
   var express  = require('express');
   var app = express();                               // create our app w/ express
   var multer = require('multer');
+  var exec = require('child_process').exec;
+  var childProc;
   var mongoose = require('mongoose');                     // mongoose for mongodb
   var morgan = require('morgan');             // log requests to the console (express4)
   var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
@@ -39,7 +41,14 @@
     },
     onFileUploadComplete: function(file) {
       console.log(file.fieldname + ' uploaded to ' + file.path);
-      console.log('done');
+      if (file.mimetype !== 'image/png') {
+        childProc = exec('convert ' + file.path + ' ' + file.path + '.png');            }
+        
+      /*for (var a in file) {
+        if (file.hasOwnProperty(a)) {
+          console.log('file.' + a + ': ' + file[a]);
+        }
+      }*/
     }
   }));
 
@@ -60,3 +69,4 @@
   // listen (start app with node server.js) ======================================
   app.listen(8000);
   console.log("App listening on port 8000");
+})();
