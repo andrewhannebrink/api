@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" ng-app="pApp">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <title>My HTML File</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/directives.js"></script>
+</head>
+
+<body ng-controller="PCtrl" ng-show="browserChecked">
+<div flow-init
+    flow-files-submitted="$flow.upload()"
+    flow-file-success="$file.msg = $message">
+        <br>
+        <ul ng-hide="mobile" id="small" class="text" ng-style="infoStyle">
+          <li><img src="img/emoji/1f4d0.png" class="tinyImg" /></li>
+          <li></li>
+          <li>{{ elementsize }} = icon width</li>
+          <li>({{ width }}, {{ height }}) = original</li>
+          <li>({{ curWidth }}, {{ curHeight }}) = current</li>
+          <li>{{ sideXImgs }} = x imgs</li>
+          <li>{{ sideYImgs }} = y imgs</li>
+        </ul>
+        <div class="static gray" ng-style="browserStyle"> 
+
+          <span class="static text gray" ng-hide="mobile"> <img src="img/emoji/1f4f7.png" class="tinyImg" /><i> Mosaic Selector</i></span>
+          <br>
+          <br>
+          <div class="gray calc" ng-hide="mobile"> 
+            <img src="img/plain_jane.png" class="calcText" />
+          </div>
+          <br>
+          <table class="ctrlTable ww">
+            <tr>
+              <td class="slide"> 
+                <span class="btn gray" flow-btn><img ng-src="{{ ::iconSets.win.upload }}" class="icon" /></span>
+              </td>
+              <td class="slide"> 
+                <span class="btn gray"><img ng-src="{{ ::iconSets.win.iconify }}" class="icon" /></span>
+              </td>
+            </tr>
+            <tr>
+              <td class="slide text"> 
+                upload
+              </td>
+              <td class="slide text">
+                iconify 
+              </td>
+            <tr>
+              <td>
+                <br>
+              </td>
+            </tr>
+            </tr>
+            <tr>
+              <td class="slide">
+                <span class="btn gray"><img ng-src="{{ ::iconSets.win.icon[0] }}" class="icon" ng-click="iconChange('win')"/></span>
+              </td>
+              <td class="slide">
+                <span class="btn gray"><img ng-src="{{ ::iconSets.emoji.icon[0] }}" class="icon" ng-click="iconChange('emoji')" /></span>
+              </td>
+            </tr>
+            <tr>
+              <td class="slide text">
+                win_98
+              </td>
+              <td class="slide text">
+                emoji
+              </td>
+            </tr>
+          </table>
+          <br>
+          <br>
+          <table class="ww" class="ctrlTable">
+            <tr>
+              <td class="slide icon">
+                <img ng-src="{{ ::iconSets.win.els }}" class="icon" />
+              </td>
+              <td class="slide">
+                <input type="range" ng-model="elementsize" ng-change="elChange()" min="16" max="64" />
+              </td>
+              <td class="slide icon">
+                <img ng-src="{{ ::iconSets.win.elb }}" class="icon"/>
+              </td>
+            </tr>
+          </table>
+          <br>
+          <br>
+          <table class="ww" class="ctrlTable">
+            <tr>
+              <td class="slide icon">
+                <img ng-src="{{ ::iconSets.win.ps }}" />
+              </td>
+              <td class="slide">
+                <input type="range" ng-model="scale" ng-change="scaleChange()" min="1" max="100" id="scaleBar" />
+              </td>
+              <td class="slide icon">
+                <img ng-src="{{ ::iconSets.win.pb }}" class="icon" />
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div ng-style="mobileWrap">
+          <img class="ofh" flow-img="$flow.files[0]" ng-style="picStyle"/> 
+          <div class="ofh" ng-style="picStyle">
+            <table class="bc" > 
+              <tr ng-repeat="y in matY track by $index" class="ww">
+                <td ng-repeat="x in matX track by $index">
+                  <img ng-src="{{ curIcon[ (x+2)*(y+6)%5 ] }}" ng-style="miniStyle" />
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+/* app css stylesheet */
+
+@font-face {
+    font-family:"pocket";
+    src: url("../img/pocket.ttf") /* TTF file for CSS3 browsers */
+}
+
+.pocket {
+  font-family:"pocket";
+  color: #999999;
+  font-size: 56px;
+}
+.pocket:hover {
+  color: #999999;
+}
+
+.ww {
+  width: 100%;
+}
+
+.wh {
+  height: 100vh;
+}
+
+
+//.centering {
+//  position: relative;
+//  top: 50%;
+//  transform: translateY(-50%);
+//}
+
+.wire {
+  border-style: dotted;
+}
+
+td {
+  max-height: 720px;
+}
+
+.slide {
+  text-align: center;
+}
+
+.text {
+  font-family: monospace;
+  font-size: 16px;
+  color:#777777;
+}
+.text:hover {
+  color:#777777;
+}
+
+.grid {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.bc {
+  border-collapse: collapse;
+}
+
+.ofh {
+  overflow: hidden;
+  position: absolute;
+  top: 0px;
+}
+
+.static {
+  position:fixed;
+  z-index:100;
+}
+
+.gray {
+  background-color:#dddddd;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #777777;
+}
+
+.calc {
+  background: #CCFF99;
+  color: #555555;
+  padding-left: 9px;
+  height: 52px;
+  -webkit-box-shadow: inset 4px 4px 2px 0px rgba(28,28,28,0.5);
+  -moz-box-shadow: inset 4px 4px 2px 0px rgba(28,28,28,0.5);
+  box-shadow: inset 4px 4px 2px 0px rgba(28,28,28,0.5);
+}
+
+.calcText {
+  width:80%;
+  position: relative;
+  top: 10px;
+}
+
+ul {
+  text-align:right;
+  list-style-type: none;
+}
+
+li {
+  font-family: monospace;
+}
+
+
+.icon {
+  width:32px;
+}
+
+.btn {
+  -webkit-box-shadow: 1px 1px 3px 0px rgba(88,88,88,0.6);
+  -moz-box-shadow: 1px 1px 3px 0px rgba(88,88,88,0.6);
+  box-shadow: 1px 1px 3px 0px rgba(88,88,88,0.6);
+}
+
+#infoDiv {
+  height:180px;
+  width:240px;
+}
+
+#small {
+  font-size:11px;
+  color: #000000;
+}
+
+.tinyImg {
+  height: 32px;
+  width: 32px;
+}
