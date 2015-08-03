@@ -3,6 +3,7 @@
   // set up ========================
   var express  = require('express');
   var app = express();                               // create our app w/ express
+  var multer = require('multer');
   var mongoose = require('mongoose');                     // mongoose for mongodb
   var morgan = require('morgan');             // log requests to the console (express4)
   var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
@@ -19,7 +20,40 @@
   app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
   app.use(methodOverride());
 
-  app.get('*', function(req, res) {
+  app.use(multer( { 
+    dest: './public/uploads/',
+    limits: {
+      fileSize: 1500000
+    },
+    onFileSizeLimit: function (file) {
+      fileTooLarge = true;
+      res.json({
+        uploadError: 'Upload failed. File must be less than 1.5 MB'
+      });
+    },
+    rename: function(fieldname, filename) {
+      return filename+Date.now();
+    },
+    onFileUploadStart: function(file) {
+      console.log(file.originalname + ' is starting ...');
+    },
+    onFileUploadComplete: function(file) {
+      console.log(file.fieldname + ' uploaded to ' + file.path);
+      console.log('done');
+    }
+  }));
+
+  // ROUTES
+  app.post('/api/test', function(req, res) {
+    res.json({success: 'true', oreq: req.body});
+  });
+  
+  app.post('/api/photo', function(req, res) {
+    console.log('/api/photo/ req: ' + req);
+  });
+ 
+
+  app.get('/', function(req, res) {
     res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
   });
 

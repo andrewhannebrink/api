@@ -1,16 +1,8 @@
 'use strict';
 
-var pApp = angular.module('pApp', []);
+var pApp = angular.module('pApp', ['ngFileUpload']);
 
-pApp.controller('PCtrl', ['$scope', '$http', function ($scope, $http) {
-  $scope.phones = [
-    {'name': 'Nexus S',
-     'snippet': 'Fast just got faster with Nexus S.'},
-    {'name': 'Motorola XOOM™ with Wi-Fi',
-     'snippet': 'The Next, Next Generapon tablet.'},
-    {'name': 'MOTOROLA XOOM™',
-     'snippet': 'The Next, Next Generapon tablet.'}
-  ];
+pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, Upload) {
   $scope.sampleImg = "img/sample.png";
   $scope.elementsize = 40;
   $scope.scale = 50;
@@ -43,10 +35,8 @@ pApp.controller('PCtrl', ['$scope', '$http', function ($scope, $http) {
       ]
     }
   };
-  $scope.curIcon = $scope.iconSets.emoji.icon
-  
-
-  
+  $scope.curIcon = $scope.iconSets.emoji.icon;
+  $scope.curIconName = 'emoji';
 
   $scope.miniStyle = {
     width: '40px',
@@ -54,6 +44,7 @@ pApp.controller('PCtrl', ['$scope', '$http', function ($scope, $http) {
   };
   $scope.iconChange = function(set) {
     this.curIcon = this.iconSets[set].icon;
+    this.curIconName = set;
   };
 
 
@@ -108,7 +99,47 @@ pApp.controller('PCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.browserChecked = true;
   };
 
+  $scope.iconify = function() {
+    var formData = {
+      curWidth: this.curWidth,
+      curHeight: this.curHeight,
+      width: this.width,
+      height: this.height,
+      curIconName: this.curIconName,
+      elementsize: this.elementsize
+    };
+    $http.post('/api/test',  formData)
+      .success(function(data) {
+        console.dir(data);
+      })
+      .error(function(data) {
+        console.log('Error: ' + data);
+      });
+  };
 
+  $scope.$watch('files', function() {
+    $scope.upload($scope.files);
+  });
+  
+  $scope.upload = function (files) {
+    if (files) {
+      console.log('inside upload()');
+      console.dir(files);
+        var file = files;
+        Upload.upload({
+          url: '/api/photo',
+          //fields: {'username': $scope.username},
+          file: file
+        }).progress(function (evt) {
+          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+        }).success(function (data, status, headers, config) {
+          console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+        }).error(function (data, status, headers, config) {
+          console.log('error status: ' + status);
+        })
+    }
+  };
 //<input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)" style="ww" />
 /*  $scope.uploadFile = function(files) {
       var fd = new FormData();
