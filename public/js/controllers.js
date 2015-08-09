@@ -6,6 +6,7 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
   $scope.sampleImg = "img/sample.png";
   $scope.elementsize = 40;
   $scope.scale = 50;
+  $scope.imgNames = ['none', 'none'];
   $scope.browserChecked = false;
   $scope.mobileWrap = {};
   $scope.iconSets= {
@@ -135,6 +136,9 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
           console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
         }).success(function (data, status, headers, config) {
           console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+          $scope.defineNewPicStyle(data.odim[0], data.odim[1]);
+          $scope.scale = 50;
+          $scope.imgNames = data.imgNames;
           console.dir(data);
         }).error(function (data, status, headers, config) {
           console.log('error status: ' + status);
