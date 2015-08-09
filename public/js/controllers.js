@@ -135,6 +135,7 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
           console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
         }).success(function (data, status, headers, config) {
           console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+          console.dir(data);
         }).error(function (data, status, headers, config) {
           console.log('error status: ' + status);
         })
