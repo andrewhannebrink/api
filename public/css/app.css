@@ -5,6 +5,11 @@
     src: url("../img/pocket.ttf") /* TTF file for CSS3 browsers */
 }
 
+a {
+  cursor: pointer;
+  color: #ff6699;
+}
+
 .pocket {
   font-family:"pocket";
   color: #999999;
@@ -151,10 +156,18 @@ li {
   color: black;
 }
 
+.black:hover {
+  color: black;
+}
+
 .pink {
   background-color: #ff6699;
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;
   border-color: #777777;
+}
+
+.right {
+  text-align:right;
 }

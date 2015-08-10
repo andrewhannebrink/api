@@ -8,6 +8,8 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
   $scope.exitIconify = function() {
     this.hideIconify = true;
   }
+  $scope.errMsg = '';
+  $scope.hideErrMsg = true;
   $scope.hideIntro = false;
   $scope.exitIntro = function() {
     this.hideIntro = true;
@@ -124,7 +126,7 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
         '-moz-box-shadow': '5px 5px 6px 5px rgba(48,48,48,0.61)',
         'box-shadow': '5px 5px 6px 5px rgba(48,48,48,0.61)',
         padding:'16px',
-        'top': '180px',
+        'top': '175px',
         left: '32px',
         'border-width': '4px',
         'border-radius': '23px'
@@ -134,9 +136,17 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
   };
 
   $scope.iconify = function() {
-    this.iconifiedImg = 'img/loading.gif';
     this.hideIconify = false;
     this.exitIntro();
+    if (this.imgNames[1] === 'none') {
+      this.hideErrMsg = false;
+      this.errMsg = 'Upload an image first!';
+      return;
+    } else {
+      this.hideErrMsg = true;
+      this.errMsg = '';
+      this.iconifiedImg = 'img/loading.gif';
+    }
     this.showIconifiedPicOnly();
     var formData = {
       curWidth: this.curWidth,
@@ -236,12 +246,14 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
     } else {
       var buf = 40 - this.elementsize;
     }
-    this.miniStyle = {
-      width: this.elementsize + 'px',
-      height: this.elementsize + 'px',
-      'margin-top': buf + 'px',
-      'margin-left': buf + 'px',
-    };
+    if (buf === 0 || buf%5 !== 0) { //gets rid of jittery icon glitch in chrome
+      this.miniStyle = {
+        width: this.elementsize + 'px',
+        height: this.elementsize + 'px',
+        'margin-top': ' ' + buf + 'px',
+        'margin-left': ' ' + buf + 'px'
+      };
+    }
   };
   
   $scope.reGrid = function() {
@@ -251,11 +263,11 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
     this.matY = [];
     for (var x = 0; x < this.sideXImgs; x++) {
       //this.matX[x] = Math.floor(Math.random()*10);
-      this.matX[x] = x%10;
+      this.matX[x] = x;
     }
     for (var y = 0; y < this.sideYImgs; y++) {
       //this.matY[y] = Math.floor(Math.random()*10);
-      this.matY[y] = y%10;
+      this.matY[y] = y;
     }
   };
 

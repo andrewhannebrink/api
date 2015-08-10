@@ -14,6 +14,20 @@
 </head>
 
 <body ng-controller="PCtrl" ng-show="browserChecked">
+        <span class="small text black right">
+          me: (╯✧∇✧)╯<a href="https://vimeo.com/tinyicon" target="_blank">vimeo</a>
+          ٩( ´･ш･)و<a href="https://twitter.com/tiny_icon" target="_blank">@tiny_icon</a>
+          (/ ‘з’)/<a href="https://twitter.com/tiny_peon" target="_blank">@tiny_peon</a>
+        (๑˃̵ᴗ˂̵)ﻭ <a href="mailto:tiny.icon.video@gmail.com">tiny.icon.video@gmail.com</a>٩|ര ‿ ര|╯
+        </span>
+        <br>
+        <span class="small text black right">
+          favs: [≧ω≦]<a href="http://emojitracker.com" target="_blank">emojitracker</a>
+          (๑>ᴗ<๑)<a href="http://pokemon.alexonsager.net" target="_blank">pokemonfusion</a>
+          ╰(・∇・╰)<a href="http://csh.bz" target="_blank">csh.bz</a>
+          ⸜(ّᶿധّᶿ)⸝<a href="http://tinyiconfactory.com/" target="_blank">tinyiconfactory</a>٩(๑❛ᴗ❛๑)۶
+        </span>
+        <br>
         <br>
         <ul ng-hide="mobile" class="small" ng-style="infoStyle">
           <li><img src="img/emoji/1f4d0.png" class="tinyImg" /></li>
@@ -23,7 +37,6 @@
           <li>({{ curWidth }}, {{ curHeight }}) = current</li>
           <li>{{ sideXImgs }} = x imgs</li>
           <li>{{ sideYImgs }} = y imgs</li>
-          <li>{{ imgNames[1] }} = img</li>
         </ul>
         <div class="static gray" ng-style="browserStyle"> 
 
@@ -122,6 +135,10 @@
         <div ng-hide="hideIconify" class="text" ng-style="iconifiedDiv">
           <span class="btn pink ex"><img ng-src="{{ ::iconSets.win.ex }}" ng-click="exitIconify()" class="icon" /></span>
           <img ng-src="{{ iconifiedImg }}" ng-style="iconifiedPic" ng-hide="hideIconifiedPicOnly" />
+          <p class="introP black med" ng-style="iconifiedPic" ng-hide="hideErrMsg">
+            <br>
+            {{ errMsg }}
+          </p>
           <div ng-hide="hideIntro">
             <p ng-style="iconifiedPic" class="introP black med">
               <br>

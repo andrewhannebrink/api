@@ -6,6 +6,7 @@
   var multer = require('multer');
   var exec = require('child_process').exec;
   var remojiProc;
+  var rmProc;
   var convertProc;
   var mongoose = require('mongoose');                     // mongoose for mongodb
   var morgan = require('morgan');             // log requests to the console (express4)
@@ -68,10 +69,18 @@
   // ROUTES
   app.post('/api/iconify', function(req, res) {
     var scale = req.body.curHeight / req.body.height;
-    var cmd = 'python photo-mosaic-video-generator/remoji.py -s public/' + req.body.imgPath + ' photo-mosaic-video-generator/' + req.body.curIconName + '/ public/iconified/' + req.body.imgPath.substr(8) + ' ' + scale + ' ' + req.body.elementsize;
+    //rmProc = exec('rm public/iconified/' + req.body.imgPath.substr(8));
+    //console.log('rm public/iconified/' + req.body.imgPath.substr(8));
+    var iconifiedImg = Date.now() + req.body.imgPath.substr(8);
+    var cmd = 'python photo-mosaic-video-generator/remoji.py -s public/' + req.body.imgPath + ' photo-mosaic-video-generator/' + req.body.curIconName + '/ public/iconified/' + iconifiedImg + ' ' + scale + ' ' + req.body.elementsize;
     console.log(cmd);
     remojiProc = exec(cmd, function(error, stdout, stderr) {
-      res.json({success: 'true', iconifiedImg: req.body.imgPath.substr(8), oreq: req.body});
+      console.log('stdout: ' + stdout);
+      console.log('stderr: ' + stderr);
+      if (error !== null) {
+        console.log('exec error: ' + error);
+      }
+      res.json({success: 'true', iconifiedImg: iconifiedImg, oreq: req.body});
       //res.(__dirname + '/public/iconified/' + req.body.imgPath.substr(8));
     });
   });
