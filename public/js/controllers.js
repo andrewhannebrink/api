@@ -4,11 +4,24 @@ var pApp = angular.module('pApp', ['ngFileUpload']);
 
 pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, Upload) {
   $scope.sampleImg = "img/sample.png";
-  $scope.elementsize = 40;
+  $scope.hideIconify = false;
+  $scope.exitIconify = function() {
+    this.hideIconify = true;
+  }
+  $scope.hideIntro = false;
+  $scope.exitIntro = function() {
+    this.hideIntro = true;
+  }
+  $scope.hideIconifiedPicOnly = true;
+  $scope.showIconifiedPicOnly = function () {
+    this.hideIconifiedPicOnly = false;
+  }
+  $scope.elementsize = 20;
   $scope.scale = 50;
   $scope.imgNames = ['none', 'none'];
   $scope.browserChecked = false;
   $scope.mobileWrap = {};
+  $scope.iconifiedImg = undefined;
   $scope.iconSets= {
     "win": {
       "elb": "img/win/shell32_16-0.png",
@@ -23,7 +36,8 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
       "iconify": "img/win/mspaint_2-0.png",
       "ps":"img/win/inetcpl_1313-3.png",
       "pb":"img/win/inetcpl_1313-5.png",
-      "upload":"img/win/syncui_135-0.png"
+      "upload":"img/win/syncui_135-0.png",
+      "ex":"img/win/wmsui32_2226-0.png"
     },
     "emoji": {
       "protractor": "img/emoji/1f4d0.png",
@@ -39,9 +53,28 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
   $scope.curIcon = $scope.iconSets.emoji.icon;
   $scope.curIconName = 'emoji';
 
+  $scope.iconifiedDiv = {
+    'z-index': '210',
+    position: 'relative',
+    'top': '-100px',
+    left: '350px'
+  };
+  $scope.iconifiedPic = {
+    'border-style': 'solid',
+    'border-width': '10px',
+    'border-radius': '25px',
+    'border-color': '#ff6699',
+    'background-color': ' #ffffff',
+   '-webkit-box-shadow': '5px 5px 6px 5px rgba(48,48,48,0.61)',
+    '-moz-box-shadow': '5px 5px 6px 5px rgba(48,48,48,0.61)',
+    'box-shadow': '5px 5px 6px 5px rgba(48,48,48,0.61)'
+  };
+
   $scope.miniStyle = {
-    width: '40px',
-    height: '40px'
+    width: '20px',
+    height: '20px',
+    'margin-top': '20px',
+    'margin-left': '20px'
   };
   $scope.iconChange = function(set) {
     this.curIcon = this.iconSets[set].icon;
@@ -91,7 +124,7 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
         '-moz-box-shadow': '5px 5px 6px 5px rgba(48,48,48,0.61)',
         'box-shadow': '5px 5px 6px 5px rgba(48,48,48,0.61)',
         padding:'16px',
-        'top': '160px',
+        'top': '180px',
         left: '32px',
         'border-width': '4px',
         'border-radius': '23px'
@@ -101,17 +134,23 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
   };
 
   $scope.iconify = function() {
+    this.iconifiedImg = 'img/loading.gif';
+    this.hideIconify = false;
+    this.exitIntro();
+    this.showIconifiedPicOnly();
     var formData = {
       curWidth: this.curWidth,
       curHeight: this.curHeight,
       width: this.width,
       height: this.height,
       curIconName: this.curIconName,
-      elementsize: this.elementsize
+      elementsize: this.elementsize,
+      imgPath: 'uploads/' + this.imgNames[1]
     };
-    $http.post('/api/test',  formData)
+    $http.post('/api/iconify',  formData)
       .success(function(data) {
         console.dir(data);
+        $scope.iconifiedImg = 'iconified/' + data.iconifiedImg
       })
       .error(function(data) {
         console.log('Error: ' + data);

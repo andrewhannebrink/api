@@ -5,7 +5,8 @@
   var app = express();                               // create our app w/ express
   var multer = require('multer');
   var exec = require('child_process').exec;
-  var childProc;
+  var remojiProc;
+  var convertProc;
   var mongoose = require('mongoose');                     // mongoose for mongodb
   var morgan = require('morgan');             // log requests to the console (express4)
   var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
@@ -28,7 +29,7 @@
   app.use(multer( { 
     dest: './public/uploads/',
     limits: {
-      fileSize: 1500000
+      fileSize: 2500000
     },
 //    onFileSizeLimit: function (file) {
 //      fileTooLarge = true;
@@ -37,20 +38,20 @@
       });*/
 //    },
     rename: function(fieldname, filename) {
-      return filename+Date.now();
+      return filename.replace(/ /g,'') + Date.now();
     },
     onFileUploadStart: function(file) {
       console.log(file.originalname + ' is starting ...');
     },
     onFileUploadComplete: function(file) {
-      console.log(file.fieldname + ' uploaded to ' + file.path);
+      //console.log(file.fieldname + ' uploaded to ' + file.path);
       if (file.mimetype.substr(0, 5) !== 'image') {
         //res.json({success: 'false', msg: 'File must be an image'});
         return
       } else { 
       //if (file.
         if (file.mimetype !== 'image/png') {
-          childProc = exec('convert ' + file.path + ' ' + file.path + '.png');
+          convertProc = exec('convert ' + file.path.replace(/ /g,'') + ' ' + file.path.replace(/ /g,'') + '.png');
         }
         //res.json({success: 'false', msg: 'File uploaded'});
       }
@@ -65,17 +66,23 @@
   }));
 
   // ROUTES
-  app.post('/api/test', function(req, res) {
-    res.json({success: 'true', oreq: req.body});
+  app.post('/api/iconify', function(req, res) {
+    var scale = req.body.curHeight / req.body.height;
+    var cmd = 'python photo-mosaic-video-generator/remoji.py -s public/' + req.body.imgPath + ' photo-mosaic-video-generator/' + req.body.curIconName + '/ public/iconified/' + req.body.imgPath.substr(8) + ' ' + scale + ' ' + req.body.elementsize;
+    console.log(cmd);
+    remojiProc = exec(cmd, function(error, stdout, stderr) {
+      res.json({success: 'true', iconifiedImg: req.body.imgPath.substr(8), oreq: req.body});
+      //res.(__dirname + '/public/iconified/' + req.body.imgPath.substr(8));
+    });
   });
   
   app.post('/api/photo', function(req, res) {
     console.log('/api/photo/ req: ');
-    for (var a in req.files.file) {
+/*    for (var a in req.files.file) {
       if (req.files.file.hasOwnProperty(a)) {
         console.log('req.files.file.' + a + ': ' + req.files.file[a]);
       }
-    }
+    }*/
     if (req.files.file.mimetype.substr(0, 5) !== 'image') {
       res.json({success: 'false', msg: 'File must be an image'});
     } else if (req.files.file.truncated === true) {
@@ -85,9 +92,9 @@
         if (!err) {
           var odim = [size.width, size.height];
           if (req.files.file.mimetype === 'image/png') {
-            res.json({success: 'true', imgNames: [req.files.file.name, req.files.file.name], odim: odim });
+            res.json({success: 'true', imgNames: [req.files.file.name.replace(/ /g,''), req.files.file.name.replace(/ /g,'')], odim: odim });
           } else {
-            res.json({success: 'true', imgNames: [req.files.file.name, req.files.file.name + '.png'], odim: odim });
+            res.json({success: 'true', imgNames: [req.files.file.name.replace(/ /g,''), req.files.file.name.replace(/ /g,'') + '.png'], odim: odim });
           }
         } else {
           console.log('gm err: ' + err);

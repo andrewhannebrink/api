@@ -79,6 +79,7 @@ td {
   border-color: #777777;
 }
 
+
 .calc {
   background: #CCFF99;
   color: #555555;
@@ -120,12 +121,40 @@ li {
   width:240px;
 }
 
-#small {
+.small {
   font-size:11px;
+  color: #000000;
+}
+.med{
+  font-size:13px;
   color: #000000;
 }
 
 .tinyImg {
   height: 32px;
   width: 32px;
+}
+
+.ex {
+  position:absolute;
+  top: -25px;
+  left: -25px;
+}
+
+.introP {
+  width:400px;
+  padding:10px;
+  margin-top:-15px;
+}
+
+.black {
+  color: black;
+}
+
+.pink {
+  background-color: #ff6699;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #777777;
 }

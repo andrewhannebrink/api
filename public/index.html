@@ -15,7 +15,7 @@
 
 <body ng-controller="PCtrl" ng-show="browserChecked">
         <br>
-        <ul ng-hide="mobile" id="small" class="text" ng-style="infoStyle">
+        <ul ng-hide="mobile" class="small" ng-style="infoStyle">
           <li><img src="img/emoji/1f4d0.png" class="tinyImg" /></li>
           <li></li>
           <li>{{ elementsize }} = icon width</li>
@@ -27,7 +27,7 @@
         </ul>
         <div class="static gray" ng-style="browserStyle"> 
 
-          <span class="static text gray" ng-hide="mobile"> <img src="img/emoji/1f4f7.png" class="tinyImg" /><i> Mosaic Selector</i></span>
+          <span class="static text" ng-hide="mobile"> <img src="img/emoji/1f4f7.png" class="tinyImg" /><i> Mosaic Selector</i></span>
           <br>
           <br>
           <div class="gray calc" ng-hide="mobile"> 
@@ -81,13 +81,14 @@
                 <img ng-src="{{ ::iconSets.win.els }}" class="icon" />
               </td>
               <td class="slide">
-                <input type="range" ng-model="elementsize" ng-change="elChange()" min="16" max="64" />
+                <input type="range" ng-model="elementsize" ng-change="elChange()" min="10" max="55" />
               </td>
               <td class="slide icon">
                 <img ng-src="{{ ::iconSets.win.elb }}" class="icon"/>
               </td>
             </tr>
           </table>
+          <span class="text">  adjust icon size </span>
           <br>
           <br>
           <table class="ww" class="ctrlTable">
@@ -103,6 +104,8 @@
               </td>
             </tr>
           </table>
+          <span class="text"> adjust image size </span>
+          <br>
         </div>
         <div ng-style="mobileWrap">
           <img class="ofh" ngf-src="file" ng-style="picStyle" ngf-accept="'image/*'"/> 
@@ -114,6 +117,22 @@
                 </td>
               </tr>
             </table>
+          </div>
+        </div>
+        <div ng-hide="hideIconify" class="text" ng-style="iconifiedDiv">
+          <span class="btn pink ex"><img ng-src="{{ ::iconSets.win.ex }}" ng-click="exitIconify()" class="icon" /></span>
+          <img ng-src="{{ iconifiedImg }}" ng-style="iconifiedPic" ng-hide="hideIconifiedPicOnly" />
+          <div ng-hide="hideIntro">
+            <p ng-style="iconifiedPic" class="introP black med">
+              <br>
+              Welcome to the tiny_icon mosaic selector. Use this site to make photo-mosaic images like this:
+              <br>
+              <br>
+              <img src="img/introImg.png" />
+              <br>
+              <br>
+              Start by uploading an image, and adjusting the icon and image sizes. You can also choose whether you want to build your photo-mosaic with emojis, or windows '95 icons. When you're ready, click the iconify button.
+            </p>
           </div>
         </div>
 </body>
