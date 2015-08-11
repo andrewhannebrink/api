@@ -2,7 +2,6 @@
 <html lang="en" ng-app="pApp">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no" />
   <title>My HTML File</title>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="css/app.css">
@@ -15,21 +14,22 @@
 
 <body ng-controller="PCtrl" ng-show="browserChecked">
         <span class="small text black right">
+          favs: [≧ω≦]<a href="http://emojitracker.com" target="_blank">emojitracker</a>
+          (๑>ᴗ<๑)<a href="http://pokemon.alexonsager.net" target="_blank">pokemonfusion</a>
+          ╰(・∇・╰)<a href="http://csh.bz" target="_blank">csh.bz</a>
+          ⸜(ّᶿധّᶿ)⸝<a href="http://tinyiconfactory.com/" target="_blank">tinyiconfactory</a>
+          ٩(๑❛ᴗ❛๑)۶<a href="http://japaneseemoticons.net" target="_blank">japaneseemoticons</a>（ΦωΦ）
+        </span>
+        <br>
+        <span class="small text black right">
           me: (╯✧∇✧)╯<a href="https://vimeo.com/tinyicon" target="_blank">vimeo</a>
           ٩( ´･ш･)و<a href="https://twitter.com/tiny_icon" target="_blank">@tiny_icon</a>
           (/ ‘з’)/<a href="https://twitter.com/tiny_peon" target="_blank">@tiny_peon</a>
         (๑˃̵ᴗ˂̵)ﻭ <a href="mailto:tiny.icon.video@gmail.com">tiny.icon.video@gmail.com</a>٩|ര ‿ ര|╯
         </span>
         <br>
-        <span class="small text black right">
-          favs: [≧ω≦]<a href="http://emojitracker.com" target="_blank">emojitracker</a>
-          (๑>ᴗ<๑)<a href="http://pokemon.alexonsager.net" target="_blank">pokemonfusion</a>
-          ╰(・∇・╰)<a href="http://csh.bz" target="_blank">csh.bz</a>
-          ⸜(ّᶿധّᶿ)⸝<a href="http://tinyiconfactory.com/" target="_blank">tinyiconfactory</a>٩(๑❛ᴗ❛๑)۶
-        </span>
         <br>
-        <br>
-        <ul ng-hide="mobile" class="small" ng-style="infoStyle">
+        <ul class="small" ng-style="infoStyle">
           <li><img src="img/emoji/1f4d0.png" class="tinyImg" /></li>
           <li></li>
           <li>{{ elementsize }} = icon width</li>
@@ -50,10 +50,10 @@
           <table class="ctrlTable ww">
             <tr>
               <td class="slide"> 
-                <span class="btn gray" ngf-select ngf-change="upload($file)" ng-model="file" ><img ng-src="{{ ::iconSets.win.upload }}" class="icon" /></span>
+                <span class="btn gray" ngf-select ngf-change="upload($file)" ng-model="file" ng-style="mobileBtn"><img ng-src="{{ ::iconSets.win.upload }}" class="icon" /></span>
               </td>
               <td class="slide"> 
-                <span class="btn gray"><img ng-src="{{ ::iconSets.win.iconify }}" class="icon" ng-click="iconify()" /></span>
+                <span class="btn gray" ng-style="mobileBtn" ><img ng-src="{{ ::iconSets.win.iconify }}" class="icon" ng-click="iconify()" /></span>
               </td>
             </tr>
             <tr>
@@ -63,18 +63,13 @@
               <td class="slide text">
                 iconify 
               </td>
-            <tr>
-              <td>
-                <br>
-              </td>
-            </tr>
             </tr>
             <tr>
               <td class="slide">
-                <span class="btn gray"><img ng-src="{{ ::iconSets.win.icon[0] }}" class="icon" ng-click="iconChange('win')"/></span>
+                <span class="btn gray" ng-style="mobileBtn" ><img ng-src="{{ ::iconSets.win.icon[0] }}" class="icon" ng-click="iconChange('win')" /></span>
               </td>
               <td class="slide">
-                <span class="btn gray"><img ng-src="{{ ::iconSets.emoji.icon[0] }}" class="icon" ng-click="iconChange('emoji')" /></span>
+                <span class="btn gray" ng-style="mobileBtn" ><img ng-src="{{ ::iconSets.emoji.icon[0] }}" class="icon" ng-click="iconChange('emoji')" /></span>
               </td>
             </tr>
             <tr>
@@ -86,8 +81,6 @@
               </td>
             </tr>
           </table>
-          <br>
-          <br>
           <table class="ww" class="ctrlTable">
             <tr>
               <td class="slide icon">
@@ -102,7 +95,6 @@
             </tr>
           </table>
           <span class="text">  adjust icon size </span>
-          <br>
           <br>
           <table class="ww" class="ctrlTable">
             <tr>
@@ -120,7 +112,7 @@
           <span class="text"> adjust image size </span>
           <br>
         </div>
-        <div ng-style="mobileWrap">
+        <div ng-style="mobileWrap" ng-hide="mobile" />
           <img class="ofh" ngf-src="file" ng-style="picStyle" ngf-accept="'image/*'"/> 
           <div class="ofh" ng-style="picStyle">
             <table class="bc" > 
@@ -135,12 +127,15 @@
         <div ng-hide="hideIconify" class="text" ng-style="iconifiedDiv">
           <span class="btn pink ex"><img ng-src="{{ ::iconSets.win.ex }}" ng-click="exitIconify()" class="icon" /></span>
           <img ng-src="{{ iconifiedImg }}" ng-style="iconifiedPic" ng-hide="hideIconifiedPicOnly" />
-          <p class="introP black med" ng-style="iconifiedPic" ng-hide="hideErrMsg">
+          <p class="introP black small" ng-style="iconifiedPic" ng-hide="hideErrMsg">
             <br>
             {{ errMsg }}
           </p>
           <div ng-hide="hideIntro">
-            <p ng-style="iconifiedPic" class="introP black med">
+            <p ng-style="iconifiedPic" class="introP black small">
+              <br>
+              *Note: This site is not quite mobile-ready but will be in the next few days. For now, use a desktop browser for the best experience.
+              <br>
               <br>
               Welcome to the tiny_icon mosaic selector. Use this site to make photo-mosaic images like this:
               <br>

@@ -92,17 +92,19 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
 }
 
   $scope.mobile = $scope.mobilecheck();
+  $scope.mobileBtn = {};
 
   //sets browser style depending on mobile / web browser detection
   $scope.browserfy = function(w, h) {
-    var mobile = $scope.mobilecheck();
+    var mobile = this.mobilecheck();
     if (mobile === true) {
+      this.mobileBtn.width = '80%';
+      this.mobileBtn.height = '100px';
       $scope.browserStyle = {
-        'top': '0px',
         background: 'rgba(255, 255, 255, 0.85)',
-        width: '280px',
-        height: '350px',
-        position: 'fixed'
+        width: '100%',
+        height: '400px',
+        position: 'relative'
       };
       $scope.mobileWrap = {
         position: 'absolute',
@@ -113,7 +115,9 @@ pApp.controller('PCtrl', ['$scope', '$http', 'Upload', function ($scope, $http, 
       $scope.picStyle = {
         width: w + 'px',
         height: h + 'px'
-      }
+      };
+      //$scope.iconifiedPic.width = '100%';
+      //$scope.iconifiedPic.height = '100%';
     } else {
       $scope.picStyle = {
         'top': '84px',
